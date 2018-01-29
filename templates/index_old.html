@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>Python Flask Bucket List App</title>
+ 
+ 
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+<script languaje='javascript'>
+$(function() {
+    $('button').click(function() {
+        var user = $('#txtUsername').val();
+        var pass = $('#txtPassword').val();
+        alert("entro")
+        $.ajax({
+            url: '/next',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+</script>
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <div class="header">
+          <h3 class="text-muted">TriviFree_WEB</h3>
+        </div>
+ 
+        <div class="jumbotron">
+            <h1>{{ question }}</h1>
+            <p class="lead"></p>
+            <p>
+                <hr>
+                <a class="btn btn-lg btn-success" href="showSignUp" role="button">{{ option1 }}</a>
+                <br><hr>
+                <a class="btn btn-lg btn-success" href="showSignUp" role="button">{{ option2 }}</a>
+                <br><hr>
+                <a class="btn btn-lg btn-success" href="showSignUp" role="button">{{ option3 }}</a>
+                <hr>
+            </p>
+        </div>
+        <form class="form-signin" action="/next" method="post" role="form">
+            <button class="btn btn-lg btn-success" type="button">Next </button>
+
+        </form>
+ 
+        
+ 
+        <footer class="footer">
+            <p>&copy; Trivifree web 2018</p>
+        </footer>
+ 
+    </div>
+</body>
+ 
+</html>

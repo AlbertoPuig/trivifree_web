@@ -3,35 +3,207 @@
  
 <head>
     <title>Python Flask Bucket List App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <!--<script src="static/js/script.js"></script>-->
  
  
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
  
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
- 
- 
+
+<script languaje='javascript'>
+var question_number = 1;
+var OKopt = '';
+
+
+$(function() {
+    $('button').click(function() {
+        //var user = $('#txtUsername').val();
+        //var pass = $('#txtPassword').val();
+        alert("entro...")
+    
+        //
+        $.ajax({
+            url: '/ajax/1',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+                alert("Sucess response")
+                alert(response)
+                var parsed = JSON.parse(response);
+                document.getElementById('opt1').innerHTML = parsed.OP1;
+                document.getElementById('opt2').innerHTML = parsed.OP2;
+                document.getElementById('opt3').innerHTML = parsed.OP3;
+                document.getElementById('question').innerHTML = parsed.QT;
+                OKopt = parsed.CRT;
+                
+                question_number = ++question_number;
+                
+            },
+            error: function(error) {
+                console.log(error);
+                alert("Error " + error)
+            }
+        });
+    });
+});
+
+</script>
+
+<script>
+    
+var OKopt = '';
+var OK_answer = '';
+
+    function nextQS(param1){
+
+        alert("entro en nextQS")
+        if (param1 === OKopt){
+            document.getElementById('message').innerHTML = ">> OK, It´s correct";
+        }else{
+
+
+         
+
+            
+            document.getElementById('message').innerHTML = ">> Fail, The Correct anwser is: " + OK_answer
+
+           
+            
+        }
+        
+            
+        $.ajax({
+            url: '/ajax/' + question_number,
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+                alert("Sucess response nextQS")
+                alert(response)
+                var parsed = JSON.parse(response);
+                document.getElementById('opt1').innerHTML = parsed.OP1;
+                document.getElementById('opt2').innerHTML = parsed.OP2;
+                document.getElementById('opt3').innerHTML = parsed.OP3;
+                document.getElementById('question').innerHTML = parsed.QT;
+                question_number = ++question_number;
+                OKopt = parsed.CRT;
+
+                //
+                var optt = OKopt
+                var optt = optt.toUpperCase();
+                var optt = 'parsed.' + optt
+                OK_answer = eval(optt);
+
+
+                //
+                
+                
+            },
+            error: function(error) {
+                console.log(error);
+                alert("Error " + error)
+            }
+        });
+
+
+    }
+</script>
+
+
+
+<style type="text/css">
+    
+
+    #popup {
+        background-color: rgba(0,0,0,0.8);
+        position: fixed;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        margin:0;
+        -webkit-animation:autopopup 2s;
+        -moz-animation:autopopup 2s;
+        animation:autopopup 2s;
+    }
+        @-webkit-keyframes autopopup {
+            from {opacity: 0;margin-top:-200px;}
+            to {opacity: 1;}
+        }
+        @-moz-keyframes autopopup {
+            from {opacity: 0;margin-top:-200px;}
+            to {opacity: 1;}
+        }
+        @keyframes autopopup {
+            from {opacity: 0;margin-top:-200px;}
+            to {opacity: 1;}
+        }
+
+    #popup:target {
+        -webkit-transition:all 1s;
+        -moz-transition:all 1s;
+        transition:all 1s;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .popup-contenedor {
+        position: relative;
+        margin:7% auto;
+        padding:30px 50px;
+        background-color: #fafafa;
+        color:#333;
+        border-radius: 3px;
+        width:50%;
+    }
+
+    a.popup-cerrar {
+        position: absolute;
+        top:3px;
+        right:3px;
+        background-color: #333;
+        padding:7px 10px;
+        font-size: 20px;
+        text-decoration: none;
+        line-height: 1;
+        color:#fff;
+    }
+
+    </style>
+
+
+
+
+
 </head>
- 
+
+
+
 <body>
- 
-    <div class="container">
+
+<div class="container">
         <div class="header">
           <h3 class="text-muted">TriviFree_WEB</h3>
         </div>
  
         <div class="jumbotron">
-            <h1>What Hindu God burned villages for fun?</h1>
+            <h1 id="question"></h1>
             <p class="lead"></p>
             <p>
                 <hr>
-                <a class="btn btn-lg btn-success" href="showSignUp" role="button">Brand</a>
+                <!--<a class="btn btn-lg btn-success" id="opt1" href="//127.0.0.1:5000/trivifree/api/v1/quest/1" role="button"></a>-->
+                <a class="btn btn-lg btn-success" onclick="nextQS('op1')" role="button" id="opt1"></a>
                 <br><hr>
-                <a class="btn btn-lg btn-success" href="showSignUp" role="button">Zeus</a>
+                <a class="btn btn-lg btn-success" onclick="nextQS('op2')" role="button" id="opt2"></a>
                 <br><hr>
-                <a class="btn btn-lg btn-success" href="showSignUp" role="button">Agni</a>
+                <a class="btn btn-lg btn-success" onclick="nextQS('op3')" role="button" id="opt3"></a>
                 <hr>
+                <p id='message'><b>Click on the correct answer</b></p>
             </p>
         </div>
+        
  
         
  
@@ -40,6 +212,35 @@
         </footer>
  
     </div>
+
+
+<div class="modal-wrapper" id="popup">
+        <div class="popup-contenedor">
+            
+            <h2>Trivifree1_WEB</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor deleniti in porro, officia velit quaerat modi doloribus similique aspernatur impedit quod, laudantium reiciendis! Similique nihil eius esse, illum assumenda soluta!. </p>
+            <br> <button onclick="Navigate()">Start</button>
+            <a class="popup-cerrar" href="#popup">X</a>
+            
+        </div>
+    </div>
+
+    
+
+    <script type="text/javascript">
+        function Navigate(){   
+             alert("Start the game");
+             var href = "#popup"
+             window.location=href;
+
+             
+            
+        }
+    </script>
+
+
+
+    
+
 </body>
- 
 </html>
