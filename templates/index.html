@@ -30,15 +30,23 @@ $(function() {
             success: function(response) {
                 console.log(response);
                 alert("Sucess response")
-                alert(response)
-                var parsed = JSON.parse(response);
-                document.getElementById('opt1').innerHTML = parsed.OP1;
-                document.getElementById('opt2').innerHTML = parsed.OP2;
-                document.getElementById('opt3').innerHTML = parsed.OP3;
-                document.getElementById('question').innerHTML = parsed.QT;
-                OKopt = parsed.CRT;
                 
-                question_number = ++question_number;
+                var parsed = JSON.parse(response);
+
+               
+                    document.getElementById('opt1').innerHTML = parsed.OP1;
+                    document.getElementById('opt2').innerHTML = parsed.OP2;
+                    document.getElementById('opt3').innerHTML = parsed.OP3;
+                    document.getElementById('question').innerHTML = parsed.QT;
+                    OKopt = parsed.CRT;
+                
+                    question_number = ++question_number;
+                    //
+                    var optt = OKopt
+                    var optt = optt.toUpperCase();
+                    var optt = 'parsed.' + optt
+                    OK_answer = eval(optt);
+
                 
             },
             error: function(error) {
@@ -81,20 +89,30 @@ var OK_answer = '';
             success: function(response) {
                 console.log(response);
                 alert("Sucess response nextQS")
-                alert(response)
+                
                 var parsed = JSON.parse(response);
-                document.getElementById('opt1').innerHTML = parsed.OP1;
-                document.getElementById('opt2').innerHTML = parsed.OP2;
-                document.getElementById('opt3').innerHTML = parsed.OP3;
-                document.getElementById('question').innerHTML = parsed.QT;
-                question_number = ++question_number;
-                OKopt = parsed.CRT;
 
-                //
-                var optt = OKopt
-                var optt = optt.toUpperCase();
-                var optt = 'parsed.' + optt
-                OK_answer = eval(optt);
+                if (parsed == null){
+                    
+                    document.getElementById('message').innerHTML = ">> Game Over <<"
+                    document.getElementById('opt1').innerHTML = "Game";
+                    document.getElementById('opt2').innerHTML = "Over";
+                    document.getElementById('opt3').innerHTML = ">><<";
+                    document.getElementById('question').innerHTML = "";
+                }
+
+                    document.getElementById('opt1').innerHTML = parsed.OP1;
+                    document.getElementById('opt2').innerHTML = parsed.OP2;
+                    document.getElementById('opt3').innerHTML = parsed.OP3;
+                    document.getElementById('question').innerHTML = parsed.QT;
+                    question_number = ++question_number;
+                    OKopt = parsed.CRT;
+
+                    //
+                    var optt = OKopt
+                    var optt = optt.toUpperCase();
+                    var optt = 'parsed.' + optt
+                    OK_answer = eval(optt);
 
 
                 //
