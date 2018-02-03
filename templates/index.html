@@ -16,24 +16,18 @@ var question_number = 1;
 var OKopt = '';
 
 
+//load first question and answers
 $(function() {
-    $('button').click(function() {
-        //var user = $('#txtUsername').val();
-        //var pass = $('#txtPassword').val();
-        alert("entro...")
-    
+    $('button').click(function() { 
         //
         $.ajax({
             url: '/ajax/1',
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {
-                console.log(response);
-                alert("Sucess response")
                 
                 var parsed = JSON.parse(response);
 
-               
                     document.getElementById('opt1').innerHTML = parsed.OP1;
                     document.getElementById('opt2').innerHTML = parsed.OP2;
                     document.getElementById('opt3').innerHTML = parsed.OP3;
@@ -63,42 +57,36 @@ $(function() {
     
 var OKopt = '';
 var OK_answer = '';
+var acorrect = '0';
 
+//load questions and answers
     function nextQS(param1){
-
-        alert("entro en nextQS")
+        //control answers and show message
         if (param1 === OKopt){
-            document.getElementById('message').innerHTML = ">> OK, It´s correct";
+            document.getElementById('message').innerHTML = ">> OK, It´s correct"
+            acorrect++;
+
         }else{
 
-
-         
-
-            
             document.getElementById('message').innerHTML = ">> Fail, The Correct anwser is: " + OK_answer
-
-           
-            
         }
-        
-            
+           
         $.ajax({
             url: '/ajax/' + question_number,
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {
                 console.log(response);
-                alert("Sucess response nextQS")
                 
                 var parsed = JSON.parse(response);
 
                 if (parsed == null){
                     
-                    document.getElementById('message').innerHTML = ">> Game Over <<"
+                    document.getElementById('message').innerHTML = ">> Game Over << __ >>> TOTAL SCORE: " + acorrect
                     document.getElementById('opt1').innerHTML = "Game";
                     document.getElementById('opt2').innerHTML = "Over";
                     document.getElementById('opt3').innerHTML = ">><<";
-                    document.getElementById('question').innerHTML = "";
+                    document.getElementById('question').innerHTML = "Thanks for playing";
                 }
 
                     document.getElementById('opt1').innerHTML = parsed.OP1;
@@ -113,11 +101,8 @@ var OK_answer = '';
                     var optt = optt.toUpperCase();
                     var optt = 'parsed.' + optt
                     OK_answer = eval(optt);
-
-
                 //
-                
-                
+                         
             },
             error: function(error) {
                 console.log(error);
@@ -128,8 +113,6 @@ var OK_answer = '';
 
     }
 </script>
-
-
 
 <style type="text/css">
     
@@ -191,13 +174,7 @@ var OK_answer = '';
 
     </style>
 
-
-
-
-
 </head>
-
-
 
 <body>
 
@@ -211,7 +188,6 @@ var OK_answer = '';
             <p class="lead"></p>
             <p>
                 <hr>
-                <!--<a class="btn btn-lg btn-success" id="opt1" href="//127.0.0.1:5000/trivifree/api/v1/quest/1" role="button"></a>-->
                 <a class="btn btn-lg btn-success" onclick="nextQS('op1')" role="button" id="opt1"></a>
                 <br><hr>
                 <a class="btn btn-lg btn-success" onclick="nextQS('op2')" role="button" id="opt2"></a>
@@ -222,11 +198,8 @@ var OK_answer = '';
             </p>
         </div>
         
- 
-        
- 
         <footer class="footer">
-            <p>&copy; Trivifree web 2018</p>
+            <p>Trivifree web 2018</p>
         </footer>
  
     </div>
@@ -236,7 +209,7 @@ var OK_answer = '';
         <div class="popup-contenedor">
             
             <h2>Trivifree1_WEB</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor deleniti in porro, officia velit quaerat modi doloribus similique aspernatur impedit quod, laudantium reiciendis! Similique nihil eius esse, illum assumenda soluta!. </p>
+            <p>Test your knowledge. Learn and Fun playing with this game</p>
             <br> <button onclick="Navigate()">Start</button>
             <a class="popup-cerrar" href="#popup">X</a>
             
@@ -247,18 +220,11 @@ var OK_answer = '';
 
     <script type="text/javascript">
         function Navigate(){   
-             alert("Start the game");
+             //alert("Start the game");
              var href = "#popup"
-             window.location=href;
-
-             
-            
+             window.location=href; 
         }
     </script>
-
-
-
-    
 
 </body>
 </html>
